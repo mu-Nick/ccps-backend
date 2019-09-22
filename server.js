@@ -4,12 +4,14 @@ const bcrypt = require("bcrypt-nodejs");
 const cors = require("cors");
 
 const registerStudent = require('./Controllers/registerStudent')
+const studentRoute = require('./Controllers/studentRoute')
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
 registerStudent(app)
+studentRoute(app)
 
 app.listen(3000, () => {
 	console.log("app is running on port 3000");
