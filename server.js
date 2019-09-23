@@ -2,21 +2,26 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt-nodejs");
 const cors = require("cors");
-const knex = require("knex");
 
-var knex = require("knex")({
-	client: "mysql",
-	connection: {
-		host: "127.0.0.1",
-		user: "anubhav",
-		password: "Abcd@1234",
-		database: "ccps"
-	}
-});
+const signin = require("./Controllers/signin");
+const getcomps = require("./Controllers/getcomps");
+const chstatus = require("./Controllers/chstatus");
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+
+app.post("/signin", (req, res) => {
+	signin.handleSignin(req, res);
+});
+
+app.get("/getcomps", (req, res) => {
+	getcomps.sendComps(req, res);
+});
+
+app.put("/chstatus", (req, res) => {
+	chstatus.handleStatus(req, res);
+});
 
 app.listen(3000, () => {
 	console.log("app is running on port 3000");
@@ -25,13 +30,13 @@ app.listen(3000, () => {
 /*
 *Basic Functionalities*
 
-/signin --> GET = user + approval req
+/signin --> POST = user + approval req
 
 /newcomp --> POST = complain
 
 /viewcomp --> GET = complain + status
 
-/chstatus --> POST = complain
+/chstatus --> PUT = complain
 
 /deptcomplains --> GET = complains
 
