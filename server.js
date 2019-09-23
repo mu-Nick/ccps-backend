@@ -6,6 +6,9 @@ const cors = require("cors");
 const signin = require("./Controllers/signin");
 const getcomps = require("./Controllers/getcomps");
 const chstatus = require("./Controllers/chstatus");
+const registerStudent = require('./Controllers/registerStudent')
+const studentRoute = require('./Controllers/studentRoute')
+
 
 const app = express();
 app.use(bodyParser.json());
@@ -22,6 +25,8 @@ app.get("/getcomps", (req, res) => {
 app.put("/chstatus", (req, res) => {
 	chstatus.handleStatus(req, res);
 });
+registerStudent(app)
+studentRoute(app)
 
 app.listen(3000, () => {
 	console.log("app is running on port 3000");
