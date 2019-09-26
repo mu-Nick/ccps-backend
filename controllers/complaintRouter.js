@@ -122,6 +122,22 @@ complaintRouter.post('/:compid/addsupporter', (req, res) => {
 })
 
 
+complaintRouter.put('/:compid/changestatus', (req, res) => {
+    const compID = req.params.compid
+    const newStatus = req.body.status
+
+    knex(complaintTable)
+        .where({ID: compID})
+        .update({Status: newStatus})
+        .then(() => {
+            res.json({
+                success: true
+            })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+})
 
 
 module.exports = complaintRouter
