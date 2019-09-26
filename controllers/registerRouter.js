@@ -73,22 +73,4 @@ registerRouter.post('/student', (req, res) => {
         })
 })
 
-// app.post('/studentlogin', (req, res) => {
-//     const student = {
-//         Roll: req.body.rollno,
-//         Password: req.body.password
-//     }
-//     knex('students').where({
-//         Roll: student.Roll
-//     })
-//     .then(rows => {
-//         if (bcrypt.compareSync(student.Password, rows[0].Hash)) {
-//             res.json(rows[0])
-//         }
-//         else {
-//             res.status(404).json(null)
-//         }
-//     })
-// })
-
 module.exports = registerRouter

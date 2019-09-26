@@ -2,7 +2,7 @@ const studentRouter = require('express').Router()
 const knex = require('../utils/knex')
 const {complaintTable} = require('../utils/config')
 
-studentRouter.get('/:rollno', (req, res) => {
+studentRouter.get('/:rollno/complaints', (req, res) => {
     // The roll no
     const Roll = req.params.rollno
     // Fetch his complaints
