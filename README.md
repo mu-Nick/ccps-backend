@@ -4,21 +4,21 @@ This is the backend for the Campus Complaint Processing System
 ## Routes
 
 ### Register
-- /register/student
-- /register/department
+- /register/student (POST)
+- /register/department (POST)
 
 ### Login
-- /login/student
-- /login/department
+- /login/student (POST)
+- /login/department (POST)
 
 ### Student
-- /student/:rollno/complaints
+- /student/:rollno/complaints (GET)
 
 ### Department
-- /department/complaints
+- /department/complaints (GET)
 
 ### Complaints
-- /complaint
-- /complaint/:id/supporters
-- /complaint/:id/addsupporter
+- /complaint (POST)
+- /complaint/:id/supporters (POST)
+- /complaint/:id/addsupporter (POST)
 - /complaint/:id/changestatus (PUT)
