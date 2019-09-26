@@ -1,13 +1,24 @@
 // To set the configuration/environment variables
 require('dotenv').config()
 
-// Config variables
+// Environment variables
 const {PORT, DB_NAME, DB_USERNAME, DB_PASSWORD} = process.env
 
-export default {
+// SQL Table names
+const studentTable = "students"
+const departmentTable = "departments"
+const complaintTable = "complaints"
+const supporterTable = "supporters"
+
+
+module.exports = {
     PORT,
     DB_NAME,
     DB_USERNAME,
-    DB_PASSWORD
+    DB_PASSWORD,
+    studentTable,
+    departmentTable,
+    complaintTable,
+    supporterTable
 }
 

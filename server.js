@@ -1,6 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const {PORT} = require('./utils/config')
+
+// The routes
+const registerRouter = require('./controllers/registerRouter')
+
 
 // Initialize the app
 const app = express();
@@ -10,6 +15,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Add routes
+app.use('/register', registerRouter)
 
 
 // app.post("/signin", (req, res) => {
@@ -24,7 +30,8 @@ app.use(cors());
 // 	chstatus.handleStatus(req, res);
 // });
 
+
 // Start the server
-app.listen(3000, () => {
-	console.log("app is running on port 3000");
+app.listen(PORT, () => {
+	console.log(`Server running on port ${PORT}`);
 });
