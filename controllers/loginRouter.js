@@ -32,7 +32,8 @@ loginRouter.post('/student', (req, res) => {
 					data: {
 						Name: rows[0].Name,
 						Email: rows[0].Email,
-						Roll: rows[0].Roll
+						Roll: rows[0].Roll,
+						Notifications: JSON.parse(rows[0].Notifications)
 					}
 				})
 			}
@@ -49,7 +50,7 @@ loginRouter.post('/student', (req, res) => {
 			}
 		})
 		.catch(err => {
-			console.log(`Login error`)
+			console.log(err)
 		})
 })
 

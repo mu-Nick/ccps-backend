@@ -7,6 +7,7 @@ const {PORT} = require('./utils/config')
 const registerRouter = require('./controllers/registerRouter')
 const loginRouter = require('./controllers/loginRouter')
 const complaintRouter = require('./controllers/complaintRouter')
+const studentRouter = require('./controllers/studentRouter')
 
 
 // Initialize the app
@@ -20,6 +21,7 @@ app.use(cors());
 app.use('/register', registerRouter)
 app.use('/login', loginRouter)
 app.use('/complaint', complaintRouter)
+app.use('/student', studentRouter)
 
 
 // app.post("/signin", (req, res) => {
