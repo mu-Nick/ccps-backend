@@ -14,7 +14,11 @@ This is the backend for the Campus Complaint Processing System
 ### Student
 - /student/:rollno/complaints
 
+### Department
+- /department/complaints
+
 ### Complaints
 - /complaint
 - /complaint/:id/supporters
 - /complaint/:id/addsupporter
+- /complaint/:id/changestatus (PUT)
