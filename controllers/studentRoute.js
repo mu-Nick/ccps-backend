@@ -1,4 +1,5 @@
 const knex = require('../knex')
+
 module.exports = (app) => {
     app.get('/student/:roll', (req, res) => {
         console.log(req.params.roll)

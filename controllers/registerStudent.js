@@ -7,7 +7,12 @@ module.exports = (app) => {
         knex('students')
             .count()
             .then(result => {
-                res.json(result)
+                res.json({
+                    success: true,
+                    data: {
+                        count: result
+                    }
+                });
             })
             .catch(err => {
                 console.log(err.sqlMessage)
@@ -25,7 +30,10 @@ module.exports = (app) => {
         knex('students')
             .insert(student)
             .then((result) => {
-                res.json({success: true})
+                res.json({
+                    success: true,
+                    message: `Succesfully added ${req.body.name}`
+                })
             })
             .catch(err => {
                 console.log(err.sqlMessage)
