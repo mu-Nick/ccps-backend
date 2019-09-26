@@ -16,7 +16,7 @@ registerRouter.post('/department', (req, res) => {
         .then(() => {
             // On success
             res.json({
-                status: 'success',
+                sucess: true,
                 data: {
                     Name: department.Name,
                     Email: department.Email,
@@ -52,7 +52,7 @@ registerRouter.post('/student', (req, res) => {
         .then(() => {
             // Succesfully registered
             res.json({
-                status: 'success',
+                success: true,
                 data: {
                     Roll: student.Roll,
                     Name: student.Name,
