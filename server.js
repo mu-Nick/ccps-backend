@@ -1,44 +1,43 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const bcrypt = require("bcrypt-nodejs");
 const cors = require("cors");
+const {PORT} = require('./utils/config')
 
-const registerStudent = require('./Controllers/registerStudent')
-const studentRoute = require('./Controllers/studentRoute')
+// The routes
+const registerRouter = require('./controllers/registerRouter')
+const loginRouter = require('./controllers/loginRouter')
+const complaintRouter = require('./controllers/complaintRouter')
+const studentRouter = require('./controllers/studentRouter')
 
+
+// Initialize the app
 const app = express();
+
+// Add middleware
 app.use(bodyParser.json());
 app.use(cors());
 
-registerStudent(app)
-studentRoute(app)
+// Add routes
+app.use('/register', registerRouter)
+app.use('/login', loginRouter)
+app.use('/complaint', complaintRouter)
+app.use('/student', studentRouter)
 
-app.listen(3000, () => {
-	console.log("app is running on port 3000");
+
+// app.post("/signin", (req, res) => {
+// 	signin.handleSignin(req, res);
+// });
+
+// app.get("/getcomps", (req, res) => {
+// 	getcomps.sendComps(req, res);
+// });
+
+// app.put("/chstatus", (req, res) => {
+// 	chstatus.handleStatus(req, res);
+// });
+
+
+// Start the server
+app.listen(PORT, () => {
+	console.log(`Server running on port ${PORT}`);
 });
-
-/*
-*Basic Functionalities*
-
-/signin --> GET = user + approval req
-
-/newcomp --> POST = complain
-
-/viewcomp --> GET = complain + status
-
-/chstatus --> POST = complain
-
-/deptcomplains --> GET = complains
-
-*/
-
-/*
-*DATABASES*
-
--->students
--->departments
--->signin
--->complains
-
-
-*/
