@@ -1,6 +1,6 @@
 const complaintRouter = require('express').Router()
 const knex = require('../utils/knex')
-const {complaintTable}  = require('../utils/config')
+const {studentTable, complaintTable}  = require('../utils/config')
 
 // To add a new complaint
 complaintRouter.post('/', (req, res) => {
@@ -34,6 +34,43 @@ complaintRouter.post('/', (req, res) => {
                 }
             })
         })
+})
+
+
+complaintRouter.post('/:compid/supporters', (req, res) => {
+    const supporterList = req.body.supporters
+    const complaintID = req.params.compid
+
+    const message = {
+        complaintID,
+        message: "Please support this complaint."
+    }
+
+    for (let i = 0; i < supporterList.length; i++) {
+        const Roll = supporterList[i]
+        knex(studentTable)
+            .where({Roll: Roll})
+            .select('Notifications')
+            .then(not => {
+                let newNotification = JSON.parse(not[0].Notifications)
+                if (!newNotification) {
+                    newNotification = []
+                }
+                newNotification.push(message)
+                knex(studentTable)
+                    .where({Roll: Roll})
+                    .update({Notifications: JSON.stringify(newNotification)})
+                    .then(() => {
+                        console.log("ADDED")
+                        res.json({
+                            success: true
+                        })
+                    })
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 })
 
 

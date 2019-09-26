@@ -11,7 +11,9 @@ studentRouter.get('/:rollno', (req, res) => {
         .then(rows => {
             res.json({
                 success: true,
-                data: rows
+                data: rows.map(row => {
+                    return {...row, Supporters: JSON.parse(row.Supporters)}
+                })
             })
         })
         .catch(err => {
