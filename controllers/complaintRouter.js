@@ -25,6 +25,7 @@ complaintRouter.post('/', (req, res) => {
             })
         })
         .catch(err => {
+            console.log(err)
             // database error
             res.json({
                 success: false,
@@ -52,7 +53,7 @@ complaintRouter.post('/:compid/supporters', (req, res) => {
             .where({Roll: Roll})
             .select('Notifications')
             .then(not => {
-                let newNotification = JSON.parse(not[0].Notifications)
+                let newNotification = not[0].Notifications
                 if (!newNotification) {
                     newNotification = []
                 }
@@ -78,43 +79,40 @@ complaintRouter.post('/:compid/addsupporter', (req, res) => {
     const compID = req.params.compid
     const rollNo = req.body.rollno
 
-    Promise.all([
-        knex(complaintTable)
-            .where({ID: compID})
-            .select('Supporters')
-            .then(rows => {
-                let supporters = JSON.parse(rows[0].Supporters)
-                if (!supporters) {
-                    supporters = []
-                }
-                supporters.push(rollNo)
-                knex(complaintTable)
-                    .where({ID: compID})
-                    .update({Supporters: JSON.stringify(supporters)})
-                    .then(() => {
-                        console.log("SUPPORTED")
-                    })
-            })
-        ,
-        knex(studentTable)
-            .where({Roll: rollNo})
-            .select('Notifications')
-            .then(not => {
-                let newNotification = JSON.parse(not[0].Notifications)
-                newNotification = newNotification.filter(notification => notification.complaintID !== compID)
-                console.log(newNotification)
-                knex(studentTable)
-                    .where({Roll: rollNo})
-                    .update({Notifications: JSON.stringify(newNotification)})
-                    .then(() => {
-                        console.log("REMOVED")
-                    })
-            })
-        ])
-        .then(() => {
-            res.json({
-                success: true
-            })
+    knex(complaintTable)
+        .where({ID: compID})
+        .select('Supporters')
+        .then(rows => {
+            console.log(rows[0])
+            let supporters = rows[0].Supporters
+            if (!supporters) {
+                supporters = []
+            }
+            console.log('**** ', supporters, ' ***')
+            supporters.push(rollNo)
+            knex(complaintTable)
+                .where({ID: compID})
+                .update({Supporters: JSON.stringify(supporters)})
+                .then(() => {
+                    console.log("SUPPORTED")
+                })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+    knex(studentTable)
+        .where({Roll: rollNo})
+        .select('Notifications')
+        .then(not => {
+            let removeNotification = not[0].Notifications
+            removeNotification = removeNotification.filter(notification => notification.complaintID !== compID)
+            knex(studentTable)
+                .where({Roll: rollNo})
+                .update({Notifications: JSON.stringify(removeNotification)})
+                .then(() => {
+                    console.log("REMOVED")
+                })
         })
         .catch(err => {
             console.log(err)

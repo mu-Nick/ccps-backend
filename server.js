@@ -8,6 +8,7 @@ const registerRouter = require('./controllers/registerRouter')
 const loginRouter = require('./controllers/loginRouter')
 const complaintRouter = require('./controllers/complaintRouter')
 const studentRouter = require('./controllers/studentRouter')
+const departmentRouter = require('./controllers/departmentRouter')
 
 
 // Initialize the app
@@ -22,19 +23,7 @@ app.use('/register', registerRouter)
 app.use('/login', loginRouter)
 app.use('/complaint', complaintRouter)
 app.use('/student', studentRouter)
-
-
-// app.post("/signin", (req, res) => {
-// 	signin.handleSignin(req, res);
-// });
-
-// app.get("/getcomps", (req, res) => {
-// 	getcomps.sendComps(req, res);
-// });
-
-// app.put("/chstatus", (req, res) => {
-// 	chstatus.handleStatus(req, res);
-// });
+app.use('/department', departmentRouter)
 
 
 // Start the server

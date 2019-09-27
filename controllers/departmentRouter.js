@@ -10,9 +10,7 @@ departmentRouter.get('/complaints', (req, res) => {
         .then(rows => {
             res.json({
                 success: true,
-                data: rows.map(row => {
-                    return {...row, Supporters: JSON.parse(row.Supporters)}
-                })
+                data: rows
             })
         })
         .catch(err => {

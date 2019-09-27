@@ -11,9 +11,7 @@ studentRouter.get('/:rollno/complaints', (req, res) => {
         .then(rows => {
             res.json({
                 success: true,
-                data: rows.map(row => {
-                    return {...row, Supporters: JSON.parse(row.Supporters)}
-                })
+                data: rows
             })
         })
         .catch(err => {
@@ -22,8 +20,5 @@ studentRouter.get('/:rollno/complaints', (req, res) => {
             })
         })
 })
-
-
-
 
 module.exports = studentRouter
