@@ -14,12 +14,14 @@ complaintRouter.post('/', (req, res) => {
     }
 
     knex(complaintTable)
+        .returning('ID')
         .insert(complaint)
-        .then(() => {
+        .then((id) => {
             // succesfully registered
             res.json({
                 success: true,
                 data: {
+                    id: id[0],
                     message: 'Succesfully registered new complaint'
                 }
             })
