@@ -2,8 +2,8 @@ const departmentRouter = require('express').Router()
 const knex = require('../utils/knex')
 const {complaintTable} = require('../utils/config')
 
-departmentRouter.get('/complaints', (req, res) => {
-    const deptID = req.body.deptid
+departmentRouter.get('/:deptid/complaints', (req, res) => {
+    const deptID = req.params.deptid
 
     knex(complaintTable)
         .where({DeptID: deptID})
