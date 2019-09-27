@@ -114,6 +114,9 @@ complaintRouter.post('/:compid/addsupporter', (req, res) => {
                 .update({Notifications: JSON.stringify(removeNotification)})
                 .then(() => {
                     console.log("REMOVED")
+                    res.json({
+                        success: true
+                    })
                 })
         })
         .catch(err => {
