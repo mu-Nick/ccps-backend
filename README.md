@@ -13,12 +13,13 @@ This is the backend for the Campus Complaint Processing System
 
 ### Student
 - /student/:rollno/complaints (GET)
+- /student/:rollno/notifications (GET)
 
 ### Department
-- /department/complaints (GET)
+- /department/:deptid/complaints (GET)
 
 ### Complaints
 - /complaint (POST)
-- /complaint/:id/supporters (POST)
-- /complaint/:id/addsupporter (POST)
+- /complaint/:id/addsupporters (POST)
+- /complaint/:id/confirmsupport (POST)
 - /complaint/:id/changestatus (PUT)
