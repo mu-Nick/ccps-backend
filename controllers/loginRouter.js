@@ -33,7 +33,7 @@ loginRouter.post('/student', (req, res) => {
 						Name: rows[0].Name,
 						Email: rows[0].Email,
 						Roll: rows[0].Roll,
-						Notifications: JSON.parse(rows[0].Notifications)
+						Notifications: rows[0].Notifications
 					}
 				})
 			}

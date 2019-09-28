@@ -62,6 +62,7 @@ registerRouter.post('/student', (req, res) => {
         })
         // On errors
         .catch(err => {
+            console.log(err)
             console.log(`Database ERROR => ${err.code} : ${err.sqlMessage}`)
             res.json({
                 success: false,
