@@ -19,8 +19,12 @@ studentRouter.get('/:rollno/complaints', (req, res) => {
         })
         .catch(err => {
             res.json({
-                success: false
-            })
+				success: false,
+				error: {
+                    code: err.code,
+                    message: err.sqlMessage
+                }
+			})
         })
 })
 
@@ -39,7 +43,13 @@ studentRouter.get('/:rollno/notifications', (req, res) => {
             })
         })
         .catch(err => {
-            console.log(err)
+            res.json({
+				success: false,
+				error: {
+                    code: err.code,
+                    message: err.sqlMessage
+                }
+			})
         })
 })
 

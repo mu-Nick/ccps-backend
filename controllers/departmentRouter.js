@@ -15,7 +15,13 @@ departmentRouter.get('/:deptid/complaints', (req, res) => {
             })
         })
         .catch(err => {
-            console.log(err)
+            res.json({
+				success: false,
+				error: {
+                    code: err.code,
+                    message: err.sqlMessage
+                }
+			})
         })
 })
 

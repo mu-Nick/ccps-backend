@@ -27,15 +27,13 @@ complaintRouter.post('/', (req, res) => {
             })
         })
         .catch(err => {
-            console.log(err)
-            // database error
             res.json({
-                success: false,
-                error: {
+				success: false,
+				error: {
                     code: err.code,
                     message: err.sqlMessage
                 }
-            })
+			})
         })
 })
 
@@ -88,7 +86,13 @@ complaintRouter.post('/:compid/addsupporters', (req, res) => {
                 })
             })
             .catch(err => {
-                console.log(err)
+                res.json({
+                    success: false,
+                    error: {
+                        code: err.code,
+                        message: err.sqlMessage
+                    }
+                })
             })
     })
 })
@@ -141,7 +145,13 @@ complaintRouter.post('/:compid/confirmsupport', (req, res) => {
             })
         })
         .catch(err => {
-            console.log(err)
+            res.json({
+				success: false,
+				error: {
+                    code: err.code,
+                    message: err.sqlMessage
+                }
+			})
         })
 })
 
@@ -158,7 +168,13 @@ complaintRouter.put('/:compid/pending', (req, res) => {
             })
         })
         .catch(err => {
-            console.log(err)
+            res.json({
+				success: false,
+				error: {
+                    code: err.code,
+                    message: err.sqlMessage
+                }
+			})
         })
 })
 
@@ -196,7 +212,15 @@ complaintRouter.put('/:compid/resolved', (req, res) => {
             .then(() => {
                 res.json({success: true})
             })
-            .catch(err => {console.log(err)})
+            .catch(err => {
+                res.json({
+                    success: false,
+                    error: {
+                        code: err.code,
+                        message: err.sqlMessage
+                    }
+                })
+            })
         })
 })
 
@@ -240,7 +264,15 @@ complaintRouter.put('/:compid/markresolved', (req, res) => {
                         })
                 })
         })
-        .catch(err => {console.log(err)})
+        .catch(err => {
+            res.json({
+				success: false,
+				error: {
+                    code: err.code,
+                    message: err.sqlMessage
+                }
+			})
+        })
 })
 
 

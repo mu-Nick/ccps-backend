@@ -50,7 +50,13 @@ loginRouter.post('/student', (req, res) => {
 			}
 		})
 		.catch(err => {
-			console.log(err)
+			res.json({
+				success: false,
+				error: {
+                    code: err.code,
+                    message: err.sqlMessage
+                }
+			})
 		})
 })
 
@@ -101,7 +107,13 @@ loginRouter.post('/department', (req, res) => {
 			}
 		})
 		.catch(err => {
-			console.log(`Login error`)
+			res.json({
+				success: false,
+				error: {
+                    code: err.code,
+                    message: err.sqlMessage
+                }
+			})
 		})
 })
 
