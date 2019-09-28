@@ -95,12 +95,12 @@ complaintRouter.post('/:compid/addsupporters', (req, res) => {
 
 // If support request was accepted by student
 complaintRouter.post('/:compid/confirmsupport', (req, res) => {
-    const compID = req.params.compid
+    const complaintID = req.params.compid
     const rollNo = req.body.rollno
 
     Promise.all([
         knex(complaintTable)
-            .where({ID: compID})
+            .where({ID: complaintID})
             .select('Supporters')
             .then(rows => {
                 let supporters = rows[0].Supporters
@@ -109,7 +109,7 @@ complaintRouter.post('/:compid/confirmsupport', (req, res) => {
                 }
                 supporters.push(rollNo)
                 knex(complaintTable)
-                    .where({ID: compID})
+                    .where({ID: complaintID})
                     .update({Supporters: JSON.stringify(supporters)})
                     .then(() => {
                         console.log("SUPPORTED")
@@ -124,7 +124,7 @@ complaintRouter.post('/:compid/confirmsupport', (req, res) => {
                 let removeNotification = not[0].Notifications
                 // remove this support request
                 removeNotification = removeNotification.filter(notification =>
-                    notification.complaintID !== compID &&
+                    notification.complaintID !== complaintID &&
                     notification.type !== 'SUP_REQ')
                 // set new notifications
                 knex(studentTable)
@@ -145,14 +145,13 @@ complaintRouter.post('/:compid/confirmsupport', (req, res) => {
         })
 })
 
-
-complaintRouter.put('/:compid/changestatus', (req, res) => {
-    const compID = req.params.compid
-    const newStatus = req.body.status
+// Change the status of this complaint to pending
+complaintRouter.put('/:compid/pending', (req, res) => {
+    const complaintID = req.params.compid
 
     knex(complaintTable)
-        .where({ID: compID})
-        .update({Status: newStatus})
+        .where({ID: complaintID})
+        .update({Status: 'Pending'})
         .then(() => {
             res.json({
                 success: true
@@ -161,6 +160,87 @@ complaintRouter.put('/:compid/changestatus', (req, res) => {
         .catch(err => {
             console.log(err)
         })
+})
+
+// Change the status of this complaint to resolved
+complaintRouter.put('/:compid/resolved', (req, res) => {
+    const complaintID = req.params.compid
+
+    knex(complaintTable)
+        .where({ID: complaintID})
+        .then(rows => {
+            Promise.all([
+                knex(complaintTable)
+                    .where({ID: complaintID})
+                    .update({Status: 'Resolved'})
+                    .then(() => {
+                        console.log('RESOLVED')
+                    })
+                ,
+                knex(studentTable)
+                    .where({Roll: rows[0].RollNo})
+                    .select('Notifications')
+                    .then(not => {
+                        let notifications = not[0].Notifications
+                        notifications = notifications.filter(notification =>
+                            notification.complaintID !== complaintID &&
+                            notification.type !== 'COMP_RES')
+                        knex(studentTable)
+                            .where({Roll: rows[0].RollNo})
+                            .update({Notifications: JSON.stringify(notifications)})
+                            .then(() => {
+                                console.log('RESOLVED')
+                            })
+                    })
+            ])
+            .then(() => {
+                res.json({success: true})
+            })
+            .catch(err => {console.log(err)})
+        })
+})
+
+// Send notification to student to confirm if his complaint is resolved
+complaintRouter.put('/:compid/markresolved', (req, res) => {
+    const complaintID = req.params.compid
+
+    // get complaint information
+    knex(complaintTable)
+        .where({ID: complaintID})
+        .then(rows => {
+            const message = {
+                complaintID,
+                subject: rows[0].Subject,
+                description: rows[0].Description,
+                message: "Was this complaint resolved ?",
+                type: 'COMP_RES'
+            }
+            knex(studentTable)
+                .where({Roll: rows[0].RollNo})
+                .select('Notifications')
+                .then(nots => {
+                    let newNotification = nots[0].Notifications
+                    if (newNotification === null) {
+                        newNotification = []
+                    }
+                    if (newNotification.find(notification =>
+                        notification.complaintID === complaintID &&
+                        notification.type === 'COMP_RES')) {
+                            res.json({success: true})
+                            return
+                        }
+                    // set new notifications
+                    newNotification.push(message)
+                    knex(studentTable)
+                        .where({Roll: rows[0].RollNo})
+                        .update({Notifications: JSON.stringify(newNotification)})
+                        .then(() => {
+                            res.json({success: true})
+                            console.log("Sent")
+                        })
+                })
+        })
+        .catch(err => {console.log(err)})
 })
 
 

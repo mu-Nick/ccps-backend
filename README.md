@@ -22,4 +22,6 @@ This is the backend for the Campus Complaint Processing System
 - /complaint (POST)
 - /complaint/:id/addsupporters (POST)
 - /complaint/:id/confirmsupport (POST)
-- /complaint/:id/changestatus (PUT)
+- /complaint/:id/pending (PUT)
+- /complaint/:id/markresolved (PUT)
+- /complaint/:id/resolved (PUT)
